@@ -44,6 +44,12 @@ public class CancionDao extends BaseDao { // TODO: heredar de BaseDao
      */
     public void crear(Cancion cancion) {
         // TODO
+        try (Connection conn = this.getConnection();
+             PreparedStatement pstmt = (PreparedStatement) conn.createStatement();
+             ResultSet rs = pstmt.executeQuery("select * from cancion");) {
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
