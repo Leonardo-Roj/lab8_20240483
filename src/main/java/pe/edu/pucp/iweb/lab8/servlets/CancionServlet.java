@@ -1,12 +1,16 @@
 package pe.edu.pucp.iweb.lab8.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import pe.edu.pucp.iweb.lab8.beans.Cancion;
+import pe.edu.pucp.iweb.lab8.dao.CancionDao;
 
 @WebServlet(name = "CancionServlet", urlPatterns = {"/canciones"})
 public class CancionServlet extends HttpServlet {
@@ -65,8 +69,18 @@ public class CancionServlet extends HttpServlet {
             throws ServletException, IOException {
 
         // TODO: obtener las canciones (CancionDao), enviarlas a la vista,
+        String action = request.getParameter("action") == null ? "listar" : request.getParameter("action");
+        Cancion cancion = new Cancion();
+        RequestDispatcher view;
 
-        request.getRequestDispatcher("listar.jsp").forward(request, response);
+        switch (action) {
+            case "listar":
+                ArrayList<Cancion>  canciones = new ArrayList<>();
+                request.setAttribute("canciones", canciones);
+                view = request.getRequestDispatcher("/WEB-INF/jsp/canciones.jsp");
+                view.forward(request, response);
+                break;
+        }
     }
 
     /** Ejercicio 2: formulario vacío. */
